@@ -1,0 +1,115 @@
+<%- include('admin-header') %>
+
+<section class="mx-auto w-full px-8 py-4">
+  <div class="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
+    <div>
+      <h2 class="text-lg font-semibold">Users</h2>
+      <p class="mt-1 text-sm text-gray-700">
+        This is a list of all employees. You can add new employees, edit or delete existing ones.
+      </p>
+    </div>
+    <%# search%>
+
+    <div class="flex w-full items-center space-x-1 md:w-1/3">
+      <input value="<%= users.searchVal %>" id="searchInput" class="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50" type="email" placeholder="Email" />
+      <a id="searchLink" href=`/admin/searchUser/?email=${searchValue}` type="button" class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+        Search
+      </a>
+    </div>
+
+    <%# search%>
+    <div>
+      <button type="button" class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+        Add new user
+      </button>
+    </div>
+  </div>
+  <div class="mt-6 flex flex-col">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200" style="table-layout: fixed;">
+            <colgroup>
+              <col class="w-1/4" />
+              <col class="w-1/4" />
+              <col class="w-1/4" />
+              <col class="w-1/6" />
+              <col class="w-1/6" />
+            </colgroup>
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3.5 text-left text-sm font-normal text-gray-700">
+                  <span>User</span>
+                </th>
+                <th scope="col" class="px-2 py-3.5 text-left text-sm font-normal text-gray-700">
+                  Email
+                </th>
+                <th scope="col" class="px-4 py-3.5 text-left text-sm font-normal text-gray-700">
+                  Status
+                </th>
+                <th scope="col" class="px-4 py-3.5 text-left text-sm font-normal text-gray-700">
+                </th>
+                <th scope="col" class="relative px-4 py-3.5">
+                  <span class="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <% users.forEach(user => { %>
+              <tr>
+                <td class="whitespace-nowrap px-4 py-4">
+                  <div class="flex items-center">
+                    <div class="h-10 w-10 flex-shrink-0">
+                      <img class="h-10 w-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1160&amp;q=80" alt="" />
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
+                        <%= user.username %>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="whitespace-nowrap px-2 py-4">
+                  <div class="text-sm text-gray-900 "> <%= user.email %> </div>
+                </td>
+                <td class="whitespace-nowrap px-2 py-4">
+                  <span class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                    Active
+                  </span>
+                </td>
+                <td class="whitespace-nowrap px-4 py-4  text-sm text-gray-700">
+                  <a href="/admin/deleteUser" role="button" class="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+                    Delete
+                  </a>
+                </td>
+                <td class="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
+                  <a href="/admin/editUser?id=<%= user._id %>" role="button" class="mr-8 rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+                    Edit
+                  </a>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  searchLink.addEventListener('click', function(event) {
+    const searchInput = document.getElementById('searchInput');
+    const searchLink = document.getElementById('searchLink');
+    // Get the value from the search input field
+    const searchValue = searchInput.value;
+
+    // Update the href attribute with the search parameter
+    searchLink.href = `/admin/searchUser/?email=${searchValue}`;
+
+    // Log the updated href to the console (you can replace this with your desired logic)
+    console.log('Updated Href:', searchLink.href);
+  });
+</script>
+<%- include('admin-footer') %>
